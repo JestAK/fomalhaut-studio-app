@@ -5,7 +5,7 @@ from zipfile import ZipFile, ZipInfo, ZIP_DEFLATED
 root = Path(__file__).resolve().parent.parent
 target = root / "dist" / "Fomalhaut-Studio.zip"
 files = [root / name for name in (
-    "package.json", "UPDATE_V18_UK.md", "UPDATE_V19_UK.md", "UPDATE_V20_UK.md", "UPDATE_V21_UK.md", "UPDATE_V22_UK.md", "UPDATE_V23_UK.md", "UPDATE_V24_UK.md", "UPDATE_V25_UK.md", "UPDATE_V26_UK.md", "UPDATE_V27_UK.md", "UPDATE_V28_UK.md", "UPDATE_V29_UK.md", "UPDATE_V30_UK.md", "UPDATE_V31_UK.md", "UPDATE_V32_UK.md", "UPDATE_V33_UK.md", "UPDATE_V34_UK.md", "START_AWS_UK.md", "README_UK.md", "BRAND.md", "Dockerfile", "compose.yaml",
+    "package.json", "README.md", "DEPLOY_GITHUB_UK.md", "NOTION_UK.md", "START_AWS_UK.md", "README_UK.md", "BRAND.md", "Dockerfile", "compose.yaml",
     "Caddyfile", ".env.example", ".dockerignore", ".gitignore",
 )]
 for directory in ("server", "dist", "ops", "tests"):

@@ -48,6 +48,7 @@ python3 -m http.server 8080 --directory dist
 
 - [Початкове налаштування AWS](START_AWS_UK.md)
 - [Експлуатація та конфігурація](README_UK.md)
+- [Підключення Notion та імпорт правок](NOTION_UK.md)
 - [GitHub Actions: налаштування автоматичних оновлень](DEPLOY_GITHUB_UK.md)
 
 Push у `main` запускає перевірки та збирання Docker-образу. Розгортання запускається тільки після успішних перевірок і ввімкнення `DEPLOY_ENABLED`. Оновлення створює резерв БД; дані залишаються у постійних Docker volumes.
