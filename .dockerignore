@@ -1,0 +1,11 @@
+.git
+.env
+data
+tmp
+node_modules
+dist/*.zip
+.openai
+
+backups
+*.sqlite
+*.sqlite-*

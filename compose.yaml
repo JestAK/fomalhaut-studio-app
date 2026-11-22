@@ -1,0 +1,62 @@
+name: ${COMPOSE_PROJECT_NAME:-fomalhaut-studio}
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+services:
+  studio:
+    build: .
+    restart: unless-stopped
+    logging: *logging
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+      BOT_API_URL: http://telegram-bot-api:8081
+      BOT_FILES_DIR: /var/lib/telegram-bot-api
+    volumes:
+      - studio-data:/data
+      - telegram-data:/var/lib/telegram-bot-api:ro
+    depends_on:
+      - telegram-bot-api
+    expose:
+      - '3000'
+    mem_limit: 1536m
+    cpus: 2
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+  telegram-bot-api:
+    image: aiogram/telegram-bot-api:latest
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      TELEGRAM_API_ID: ${TELEGRAM_API_ID}
+      TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
+      TELEGRAM_LOCAL: '1'
+    volumes:
+      - telegram-data:/var/lib/telegram-bot-api
+      - studio-data:/data:ro
+    # The Bot API port is internal only. Never publish 8081 to the Internet.
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    logging: *logging
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - studio
+volumes:
+  studio-data:
+  telegram-data:
+  caddy-data:
+  caddy-config:
